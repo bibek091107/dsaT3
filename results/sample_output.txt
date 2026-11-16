@@ -1,0 +1,109 @@
+
+PRODUCT ID SEARCH ARENA  -  BST vs AVL vs Chained Hashing
+Catalogue: FreshKart supermarket, 48 items
+
+========================================================================
+ Scenario A : delivery order (16 consecutive dairy SKUs first)
+========================================================================
+  First 6 SKUs inserted: 20001 20002 20003 20004 20005 20006 ...
+
+  Build statistics (48 items, ideal tree height 6)
+    BST  : height 22   key checks while inserting 667
+    AVL  : height  7   key checks while inserting 213   rotations 22 (LL 1, RR 17, LR 2, RL 2)
+    Hash : 61 buckets, load factor 0.79, collisions 17, longest chain 4, empty buckets 30
+
+  Successful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20001     found            1       3       1
+  20009     found            9       5       2
+  20016     found           16       1       1
+  11427     found            3       6       1
+  52690     found           21       7       1
+  98450     found           21       5       1
+  average                11.83    4.50    1.17
+
+  Unsuccessful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20017     absent          19       5       1
+  19999     absent           4       5       1
+  10000     absent           3       6       2
+  50000     absent          21       7       3
+  99999     absent          21       5       1
+  33333     absent          21       6       1
+  average                14.83    5.67    1.50
+
+========================================================================
+ Scenario B : sorted import (ascending SKUs)
+========================================================================
+  First 6 SKUs inserted: 11427 12988 15309 19064 20001 20002 ...
+
+  Build statistics (48 items, ideal tree height 6)
+    BST  : height 48   key checks while inserting 1128
+    AVL  : height  6   key checks while inserting 225   rotations 42 (LL 0, RR 42, LR 0, RL 0)
+    Hash : 61 buckets, load factor 0.79, collisions 17, longest chain 4, empty buckets 30
+
+  Successful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20001     found            5       6       1
+  20009     found           13       6       2
+  20016     found           20       4       1
+  11427     found            1       6       2
+  52690     found           32       1       1
+  98450     found           48       6       1
+  average                19.83    4.83    1.33
+
+  Unsuccessful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20017     absent          21       6       1
+  19999     absent           5       6       1
+  10000     absent           1       6       2
+  50000     absent          32       6       3
+  99999     absent          48       6       1
+  33333     absent          26       6       1
+  average                22.17    6.00    1.50
+
+========================================================================
+ Scenario C : shuffled arrival (seed 2026)
+========================================================================
+  First 6 SKUs inserted: 44718 33019 35941 11427 52690 20007 ...
+
+  Build statistics (48 items, ideal tree height 6)
+    BST  : height 10   key checks while inserting 250
+    AVL  : height  7   key checks while inserting 210   rotations 21 (LL 4, RR 8, LR 5, RL 4)
+    Hash : 61 buckets, load factor 0.79, collisions 17, longest chain 4, empty buckets 30
+
+  Successful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20001     found            8       4       1
+  20009     found            8       5       1
+  20016     found           10       6       1
+  11427     found            3       5       2
+  52690     found            2       2       2
+  98450     found            4       5       1
+  average                 5.83    4.50    1.33
+
+  Unsuccessful searches (key checks)
+  SKU       Result         BST     AVL    Hash
+  20017     absent          10       6       1
+  19999     absent           8       4       1
+  10000     absent           3       5       2
+  50000     absent           4       6       3
+  99999     absent           4       5       1
+  33333     absent           3       5       1
+  average                 5.33    5.17    1.50
+
+========================================================================
+ Extra: range query  "all SKUs from 20005 to 20012"
+========================================================================
+    20005  Salted Butter 100g
+    20006  Cheese Slices 10pc
+    20007  Buttermilk 500ml
+    20008  Ghee 500ml
+    20009  Flavoured Yogurt 100g
+    20010  Fresh Cream 200ml
+    20011  Lassi 200ml
+    20012  Milk Powder 500g
+  AVL tree : 8 items listed after visiting 11 nodes
+  Hash     : no key order, every one of the 48 entries in 61 buckets must be scanned
+
+CSV files written: results/build_stats.csv, results/search_costs.csv

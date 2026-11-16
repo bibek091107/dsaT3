@@ -1,0 +1,4 @@
+scenario,bst_height,bst_insert_checks,avl_height,avl_insert_checks,avl_rotations,hash_collisions,hash_longest_chain,hash_insert_checks
+A,22,667,7,213,22,17,4,22
+B,48,1128,6,225,42,17,4,22
+C,10,250,7,210,21,17,4,22
